@@ -1,0 +1,54 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../ac-view/ac-led-group-behavior.html">
+<link rel="import" href="../ac-view/view-audio.html">
+<link rel="import" href="./piano-key.html">
+
+
+<dom-module id="piano-keys">
+    <template>
+        <style>
+            [wrapper]{
+                height:100%;
+                width:100%;
+                @apply(--layout-center);
+                @apply(--layout-vertical);
+                @apply(--layout-center-justified);
+                @apply(--layout-horizontal);
+            }
+        </style>
+        <view-audio id="trebleAudio" channel='0' default-audio-url='/data/accordion_synth/treble.mp3'></view-audio>
+        <div wrapper>
+            <piano-key acLed ac-id='55' channel = '0'></piano-key>
+            <piano-key acLed ac-id='60' channel = '0'></piano-key>
+            <piano-key acLed ac-id='62' channel = '0'></piano-key>
+            <piano-key acLed ac-id='64' channel = '0'></piano-key>
+            <piano-key acLed ac-id='65' channel = '0'></piano-key>
+            <piano-key acLed ac-id='67' channel = '0'></piano-key>
+            <piano-key acLed ac-id='69' channel = '0'></piano-key>
+            <piano-key acLed ac-id='70' channel = '0'></piano-key>
+            <piano-key acLed ac-id='72' channel = '0'></piano-key>
+            <piano-key acLed ac-id='74' channel = '0'></piano-key>
+            <piano-key acLed ac-id='75' channel = '0'></piano-key>
+            <piano-key acLed ac-id='76' channel = '0'></piano-key>
+            <piano-key acLed ac-id='77' channel = '0'></piano-key>
+            <piano-key acLed ac-id='79' channel = '0'></piano-key>
+            <piano-key acLed ac-id='81' channel = '0'></piano-key>
+            <piano-key acLed ac-id='82' channel = '0'></piano-key>
+            <piano-key acLed ac-id='84' channel = '0'></piano-key>
+            <piano-key acLed ac-id='86' channel = '0'></piano-key>
+            <piano-key acLed ac-id='88' channel = '0'></piano-key>
+            <piano-key acLed ac-id='89' channel = '0'></piano-key>
+            <piano-key acLed ac-id='91' channel = '0'></piano-key>
+        </div>
+    
+    </template>
+    <script>
+        Polymer({
+            is: "piano-keys",
+            observers: [],
+            behaviors: [acLedGroupBehavior],
+            properties: {
+            }
+        });
+    </script>
+</dom-module>

@@ -1,17 +1,30 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../ac-view/ac-view-behavior.html">
+<link rel="import" href="./piano-keys.html">
 <dom-module id="ac-piano">
     <template>
         <style>
+
         </style>
-        
+        <piano-keys 
+            acLedGroup 
+            name='Piano' 
+            default-instrument-panning='0' 
+            default-playback-panning='0'
+            default-instrument-volume='1'
+            default-playback-volume='1'>
+        </piano-keys>
     </template>
     <script>
         Polymer({
             is: "ac-piano",
             observers: [],
-            behaviors: [],
+            behaviors: [ACViewBehavior],
             properties: {
             },
+            ___acV_handleMIDIEvent: function (e) {
+                this.$$('PIANO-KEYS').___acV_onMIDIEvent(e);
+            }
         });
     </script>
 </dom-module>

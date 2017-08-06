@@ -1,0 +1,61 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../ac-view/ac-led-behavior.html">
+<dom-module id="piano-key">
+    <template>
+        <style>
+            [rect]{
+                position: absolute  ; 
+                height:200px;
+                width:40px;
+                background-color: var(--content-background,#fafafa);
+            }
+            [shadow]{
+                margin-top: 
+                height:200px;
+                width:40px;
+                margin-top: 0.8vh;
+                background-color: var(--ac-led-shadow,gray);
+            }
+            [acLed]{
+                position: absolute; 
+                height:200px;
+                width:40px;
+                background-color: white ;
+            }
+            [wrapper]{
+                display: flex ; 
+                height:200px;
+                width:40px;
+                margin: 5px ;
+            }
+        </style>
+         <div wrapper>
+             <div rect shadow></div> 
+            <div rect ></div>
+            <div acLed >
+                <!-- override default -->
+                <!-- <div note>
+                    F#
+                </div>   -->
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "piano-key",
+            observers: [],
+            behaviors: [acLedBehavior],
+            properties: {
+            },
+             ___acV_acLedColor: function(acLedState){
+                console.log(acLedState);
+                if (acLedState === 1) {
+                    return '--theme-color1' ;
+                }
+                if (acLedState === 2) {
+                    return '--theme-color2' ;
+                }
+            }
+        });
+    </script>
+</dom-module>
