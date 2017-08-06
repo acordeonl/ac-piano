@@ -6,13 +6,7 @@
         <style>
 
         </style>
-        <piano-keys 
-            acLedGroup 
-            name='Piano' 
-            default-instrument-panning='0' 
-            default-playback-panning='0'
-            default-instrument-volume='1'
-            default-playback-volume='1'>
+        <piano-keys acLedGroup name='Piano'>
         </piano-keys>
     </template>
     <script>
@@ -24,6 +18,10 @@
             },
             ___acV_handleMIDIEvent: function (e) {
                 this.$$('PIANO-KEYS').___acV_onMIDIEvent(e);
+            },
+            ready: function () {
+                this.___acV_setDefaultReverb(30);
+                this.___acV_setReferencePitch(55);
             }
         });
     </script>
