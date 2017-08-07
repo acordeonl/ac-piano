@@ -1,0 +1,111 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../ac-view/ac-led-behavior.html">
+<dom-module id="piano-semi-key">
+    <template>
+        <styles>
+            <style keys>
+                [rect]{
+                    position: absolute  ; 
+                    height:180px;
+                    width:20px;
+                    background-color: #090121;
+                    /* background-color:black; */
+                    border-radius: 3px ;
+                }
+                [rect2]{
+                    position: absolute  ; 
+                    height:165px;
+                    width:20px;
+                    background-color: #3c3a3f;
+                    border-radius: 10px; 
+                    /* background-color:black; */
+                }
+                [rect3]{
+                    position: absolute  ; 
+                    height:180px;
+                    width:5px;
+                    background-color: #595b5e;
+                    border-radius: 5px; 
+                    opacity:0.7 ; 
+                    background-color: 090121;
+                }
+                [rect-border]{
+                    height:100% ; 
+                    width:100% ; 
+                    background-color: var(--background-color,gray);
+                    border-radius: 5px ; 
+                }
+                [shadow]{
+                    height:182.4px ; 
+                    width:20px;
+                    background-color: var(--ac-led-shadow,gray);
+                    border-radius: 3px ;
+                }
+                [acLed]{
+                    position: absolute; 
+                    height:180px;
+                    width:20px;
+                    background-color: white ;
+                    border-radius: 3px ;
+                }
+                [wrapper]{
+                    z-index: 1; 
+                    position: absolute ; 
+                    display: flex ; 
+                    height:183px;
+                    width:25px;
+                    @apply(--layout-horizontal);
+                    @apply(--layout-center);
+                    @apply(--layout-vertical);
+                }
+                [note]{
+                    height:100%;
+                    width:70%;
+                    color:var(--content-background1,#fafafa);
+                    font-weight:400 ; 
+                    margin:5.6px ; 
+                    margin-top:20px ; 
+                     word-wrap: break-word ;  
+                }
+            </style>
+            <style position>
+                .left{
+                    margin-left: -18px ; 
+                }
+                .right{
+                    margin-left: -10px ;
+                }
+                .center{
+                    margin-left: -14px ; 
+                }
+            </style>
+        </styles>
+         <div wrapper class$='[[position]]'>
+            <div rect-border></div> 
+            <div rect shadow></div> 
+            <div rect >
+                <div rect2></div>
+                <div rect3></div>
+            </div>
+            <div acLed >
+                <!-- override default -->
+                 <div note>
+                    F#
+                </div>   
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "piano-semi-key",
+            observers: [],
+            behaviors: [acLedBehavior],
+            properties: {
+                position:{
+                    type:String,
+                    value:'center'
+                }
+            }
+        });
+    </script>
+</dom-module>
