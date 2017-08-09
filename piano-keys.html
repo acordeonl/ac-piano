@@ -131,6 +131,9 @@
                     value:0
                 }
             },
+            ___acV_mapMIDIEventToAcLedId: function(channel,midiNote){
+                return midiNote+this.___acV_referencePitch-this.___acV_pitch ;
+            },
             _computeRotation: function (rotation,mobile) {
                 if (rotation || mobile )
                     return "vertical";
