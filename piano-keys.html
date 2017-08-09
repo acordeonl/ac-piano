@@ -166,8 +166,15 @@
                     value:0
                 }
             },
-            ___acV_mapMIDIEventToAcLedId: function(channel,midiNote){
-                return midiNote+this.___acV_referencePitch-this.___acV_pitch ;
+            ___acV_midiEventToAudioNote: function(channel,midiNote,origin){
+                if (origin.startsWith('___midi_instrument')) 
+                    return midiNote; 
+               return this.___acV_midiEventToAudioNoteDefault(channel,midiNote,origin) ; 
+            },
+            ___acV_mapMIDIEventToAcLedId: function(channel,midiNote,origin){
+                if (!origin.startsWith('___midi_instrument')) 
+                    return midiNote+this.___acV_referencePitch-this.___acV_pitch ;
+                return midiNote ;
             },
             _computeRotation: function (rotation,mobile) {
                 if (rotation || mobile )
