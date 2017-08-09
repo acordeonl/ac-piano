@@ -1,5 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../ac-view/ac-led-behavior.html">
+<link rel="import" href="/bower_components/local-dom/local-dom.html">
+
 <dom-module id="piano-semi-key">
     <template>
         <styles>
@@ -65,7 +67,7 @@
                     font-weight:400 ; 
                     margin:5.6px ; 
                     margin-top:20px ; 
-                     word-wrap: break-word ;  
+                    word-wrap: break-word ;  
                 }
             </style>
             <style position>
@@ -76,24 +78,49 @@
                     margin-left: -10px ;
                 }
                 .center{
-                    margin-left: -14px ; 
+                    margin-left: -12.5px ; 
+                }
+            </style>
+            <style mobile>
+                [mobile] [rect2]{
+                    height: 28vw ;
+                }
+                [mobile] [wrapper]{
+                    height: 30vw ; 
+                }
+                [mobile] [shadow] {
+                    height: 30.5vw ; 
+                }
+                [mobile] [rect]{
+                    height: 30vw ;
+                }
+                [mobile] [rect3] {
+                    height: 30vw ;
+                }
+                [mobile] [acLed] {
+                    height: 30vw; 
+                }
+                [mobile] [bottom-rect]{
+                    height: 31vw ; 
                 }
             </style>
         </styles>
-         <div wrapper class$='[[position]]'>
-            <div rect-border></div> 
-            <div rect shadow></div> 
-            <div rect >
-                <div rect2></div>
-                <div rect3></div>
+        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
+            <div wrapper key class$='[[position]]'>
+                <div rect-border ></div> 
+                <div rect shadow ></div> 
+                <div rect key >
+                    <div rect2></div>
+                    <div rect3 key></div>
+                </div>
+                <div acLed key>
+                    <!-- override default -->
+                    <div note>
+                        F#
+                    </div>   
+                </div>
             </div>
-            <div acLed >
-                <!-- override default -->
-                 <div note>
-                    F#
-                </div>   
-            </div>
-        </div>
+        </local-dom>
     </template>
     <script>
         Polymer({

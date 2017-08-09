@@ -1,5 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../ac-view/ac-led-group-behavior.html">
+<link rel="import" href="/bower_components/paper-range-slider/paper-range-slider.html">
+<link rel="import" href="/bower_components/local-dom/local-dom.html">
 <link rel="import" href="../ac-view/view-audio.html">
 <link rel="import" href="./piano-semi-key.html">
 <link rel="import" href="./piano-key.html">
@@ -8,76 +10,107 @@
 <dom-module id="piano-keys">
     <template>
         <style>
-            [wrapper]{
-                height:100%;
-                width:100%;
-                @apply(--layout-center); 
-                @apply(--layout-vertical); 
+            [wrapper] {
+                height: 90%;
+                width: 100%;
+                @apply(--layout-center);
+                @apply(--layout-vertical);
+                @apply(--layout-center-justified);
+            }
+            [piano] {
                 @apply(--layout-center-justified);
                 @apply(--layout-horizontal);
             }
-            [piano]{
+            [desktop] [piano] {
+                margin-top:80px;
+            }
+            .noDisplay {
+                display: none;
+            }
+            .vertical{
+                transform: rotate(90deg);
+            }
+            [range]{
+                height: 10%;
+                width: 100%;
+                @apply(--layout-center);
+                @apply(--layout-vertical);
                 @apply(--layout-center-justified);
-                @apply(--layout-horizontal);
+            }
+            paper-range-slider {
+                will-change: transf2orm;
+                cursor: pointer;
+                --paper-range-slider-active-color:var(--ac-led-shadow,gray);
+                --paper-range-slider-knob-color:var(--ac-led-shadow,gray);
+                --paper-range-slider-pin-color:var(--ac-led-shadow,gray);
+                --paper-range-slider-pin-start-color:var(--ac-led-shadow,gray);
             }
         </style>
         <view-audio id="trebleAudio" channel='0' default-audio-url='/data/accordion_synth/treble.mp3'></view-audio>
-        <div wrapper>
-            <div piano>
-                <piano-key acLed ac-id='9' channel = '0'></piano-key>
-                <piano-semi-key position ='right'  acLed ac-id='10' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='11' channel = '0'></piano-key>
-                <piano-key acLed ac-id='55' channel = '0'></piano-key>
-                <piano-semi-key position ='left' acLed ac-id='60' channel = '0'></piano-semi-key>  
-                <piano-key acLed ac-id='62' channel = '0'></piano-key>
-                <piano-semi-key position ='right' acLed ac-id='64' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='65' channel = '0'></piano-key>
-                <piano-key acLed ac-id='67' channel = '0'></piano-key>
-                <piano-semi-key position ='left'  acLed ac-id='69' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='70' channel = '0'></piano-key>
-                <piano-semi-key position ='center'  acLed ac-id='72' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='74' channel = '0'></piano-key>
-                <piano-semi-key position ='right'  acLed ac-id='75' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='76' channel = '0'></piano-key>
-                <piano-key acLed ac-id='77' channel = '0'></piano-key>
-                <piano-semi-key position ='left' acLed ac-id='79' channel = '0'></piano-semi-key>  
-                <piano-key acLed ac-id='81' channel = '0'></piano-key>
-                <piano-semi-key position ='right' acLed ac-id='82' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='84' channel = '0'></piano-key>
-                <piano-key acLed ac-id='86' channel = '0'></piano-key>
-                <piano-semi-key position ='left'  acLed ac-id='88' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='89' channel = '0'></piano-key>
-                <piano-semi-key position ='center'  acLed ac-id='91' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='9' channel = '0'></piano-key>
-                <piano-semi-key position ='right'  acLed ac-id='10' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='11' channel = '0'></piano-key>
-                <piano-key acLed ac-id='0' channel = '0'></piano-key>
-                <piano-semi-key position ='left' acLed ac-id='1' channel = '0'></piano-semi-key>  
-                <piano-key acLed ac-id='2' channel = '0'></piano-key>
-                <piano-semi-key position ='right' acLed ac-id='3' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='4' channel = '0'></piano-key>
-                <piano-key acLed ac-id='5' channel = '0'></piano-key>
-                <piano-semi-key position ='left'  acLed ac-id='6' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='7' channel = '0'></piano-key>
-                <piano-semi-key position ='center'  acLed ac-id='8' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='9' channel = '0'></piano-key>
-                <piano-semi-key position ='right'  acLed ac-id='10' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='11' channel = '0'></piano-key>
-                <piano-key acLed ac-id='0' channel = '0'></piano-key>
-                <piano-semi-key position ='left' acLed ac-id='1' channel = '0'></piano-semi-key>  
-                <piano-key acLed ac-id='2' channel = '0'></piano-key>
-                <piano-semi-key position ='right' acLed ac-id='3' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='4' channel = '0'></piano-key>
-                <piano-key acLed ac-id='5' channel = '0'></piano-key>
-                <piano-semi-key position ='left'  acLed ac-id='6' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='7' channel = '0'></piano-key>
-                <piano-semi-key position ='center'  acLed ac-id='8' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='9' channel = '0'></piano-key>
-                <piano-semi-key position ='right'  acLed ac-id='10' channel = '0'></piano-semi-key>
-                <piano-key acLed ac-id='11' channel = '0'></piano-key>
+        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
+            <div wrapper class$="{{_computeRotation(___acV_rotation,mobile)}}">
+                <div piano>
+                    <piano-key class$='[[keyDisplays.0]]' acLed ac-id='9' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.1]]' position='right' acLed ac-id='10' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.2]]' acLed ac-id='11' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.3]]' acLed ac-id='55' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.4]]' position='left' acLed ac-id='60' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.5]]' acLed ac-id='62' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.6]]' position='right' acLed ac-id='64' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.7]]' acLed ac-id='65' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.8]]' acLed ac-id='67' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.9]]' position='left' acLed ac-id='69' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.10]]' acLed ac-id='70' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.11]]' position='center' acLed ac-id='72' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.12]]' acLed ac-id='74' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.13]]' position='right' acLed ac-id='75' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.14]]' acLed ac-id='76' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.15]]' acLed ac-id='77' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.16]]' position='left' acLed ac-id='79' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.17]]' acLed ac-id='81' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.18]]' position='right' acLed ac-id='82' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.19]]' acLed ac-id='84' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.20]]' acLed ac-id='86' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.21]]' position='left' acLed ac-id='88' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.22]]' acLed ac-id='89' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.23]]' position='center' acLed ac-id='91' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.24]]' acLed ac-id='9' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.25]]' position='right' acLed ac-id='10' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.26]]' acLed ac-id='11' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.27]]' acLed ac-id='0' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.28]]' position='left' acLed ac-id='1' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.29]]' acLed ac-id='2' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.30]]' position='right' acLed ac-id='3' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.31]]' acLed ac-id='4' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.32]]' acLed ac-id='5' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.33]]' position='left' acLed ac-id='6' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.34]]' acLed ac-id='7' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.35]]' position='center' acLed ac-id='8' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.36]]' acLed ac-id='9' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.37]]' position='right' acLed ac-id='10' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.38]]' acLed ac-id='11' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.39]]' acLed ac-id='0' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.40]]' position='left' acLed ac-id='1' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.41]]' acLed ac-id='2' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.42]]' position='right' acLed ac-id='3' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.43]]' acLed ac-id='4' channel='0'></piano-key>
+                    <piano-key class$='[[keyDisplays.44]]' acLed ac-id='5' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.45]]' position='left' acLed ac-id='6' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.46]]' acLed ac-id='7' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.47]]' position='center' acLed ac-id='8' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.48]]' acLed ac-id='9' channel='0'></piano-key>
+                    <piano-semi-key class$='[[keyDisplays.49]]' position='right' acLed ac-id='10' channel='0'></piano-semi-key>
+                    <piano-key class$='[[keyDisplays.50]]' acLed ac-id='11' channel='0'></piano-key>
+                </div>
             </div>
-        </div>
-    
+            <div range>
+                <paper-range-slider id='rangeSlider' 
+                    value-diff-min='5' min='0' max='100'
+                    value-max="{{rangeHigh}}" value-min="{{rangeLow}}"
+                    on-change='_onRangeChange' on-value-change='_onRangeChange'>
+                </paper-range-slider>
+            </div>
+        </local-dom>
     </template>
     <script>
         Polymer({
@@ -85,6 +118,57 @@
             observers: [],
             behaviors: [acLedGroupBehavior],
             properties: {
+                keyDisplays: {
+                    type: Array,
+                    value: []
+                },
+                rangeHigh:{
+                    type:Number,
+                    value:100
+                },
+                rangeLow:{
+                    type:Number,
+                    value:0
+                }
+            },
+            _computeRotation: function (rotation,mobile) {
+                if (rotation || mobile )
+                    return "vertical";
+                return "";
+            },
+            _onRangeChange: function (e) {
+                var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length ; 
+                var low = Math.floor((this.rangeLow/100)*numKeys) ; 
+                var high = Math.floor((this.rangeHigh/100)*numKeys) ; 
+                this.keyDisplays = [];
+                for(let i = 0 ; i < low ; i ++ ){
+                    this.keyDisplays[i] = 'noDisplay' ; 
+                }
+                for(let i = high+1 ; i < numKeys ; i ++ ){
+                    this.keyDisplays[i] = 'noDisplay' ; 
+                }
+                this._updateDisplayArray();
+            },
+            _updateDisplayArray: function () {
+                var arr = this.keyDisplays;
+                this.keyDisplays = [];
+                this.keyDisplays = arr;
+            },
+            ready: function () {
+                var tot = window.innerWidth
+                tot*=0.7 ;
+                if (this.mobile) {
+                    tot = window.innerHeight ; 
+                    tot*=0.8 ; 
+                }
+                var visibleKeys = Math.floor(tot/36) ; 
+                visibleKeys += 5*Math.floor(visibleKeys/7) ; 
+                var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length ; 
+                visibleKeys = Math.min(numKeys, visibleKeys) ; 
+                var per = visibleKeys/numKeys ; 
+                this.rangeLow = Math.floor((1-per)/2*100) ; 
+                this.rangeHigh = Math.ceil(((1-per)/2 + per)*100); 
+                this._onRangeChange() ; 
             }
         });
     </script>

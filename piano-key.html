@@ -1,5 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../ac-view/ac-led-behavior.html">
+<link rel="import" href="/bower_components/local-dom/local-dom.html">
+
 <dom-module id="piano-key">
     <template>
         <style>
@@ -57,20 +59,28 @@
                 width:100%;
                 text-align: center ; 
             }
-        </style>
-         <div wrapper>
-             <!-- <div bottom-rect-shadow></div>   -->
-             <div bottom-rect></div>  
-            <div rect shadow></div> 
-            <div rect >
+            [mobile] [key]{
+                height: 45vw ;
+            }
+            [mobile] [bottom-rect]{
+                height: 46vw ; 
+            }
+        </style>    
+        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
+            <div wrapper key>
+                <!-- <div bottom-rect-shadow></div>   -->
+                <div bottom-rect></div>  
+                <div rect shadow key></div> 
+                <div rect key >
+                </div>
+                <div acLed key>
+                    <!-- override default -->
+                    <div note>
+                        F#
+                    </div>   
+                </div>
             </div>
-            <div acLed >
-                <!-- override default -->
-                 <div note>
-                    F#
-                </div>   
-            </div>
-        </div>
+        </local-dom>
     </template>
     <script>
         Polymer({
