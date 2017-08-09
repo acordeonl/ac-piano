@@ -21,6 +21,9 @@
                 @apply(--layout-center-justified);
                 @apply(--layout-horizontal);
             }
+            [piano]:active{
+                cursor: move ; 
+            }
             [desktop] [piano] {
                 margin-top:80px;
             }
@@ -49,7 +52,7 @@
         <view-audio id="trebleAudio" channel='0' default-audio-url='/data/accordion_synth/treble.mp3'></view-audio>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
             <div wrapper class$="{{_computeRotation(___acV_rotation,mobile)}}">
-                <div piano>
+                <div piano on-track='_handleTrack'>
                     <piano-key class$='[[keyDisplays.0]]' acLed ac-id='24' channel='0'></piano-key>
                     <piano-semi-key class$='[[keyDisplays.1]]' position='left' acLed ac-id='25' channel='0'></piano-semi-key>
                     <piano-key class$='[[keyDisplays.2]]' acLed ac-id='26' channel='0'></piano-key>
@@ -164,7 +167,40 @@
                 rangeLow:{
                     type:Number,
                     value:0
+                },
+                scrolling:{
+                    type:Boolean,
+                    value:false
                 }
+            },
+            _handleTrack: async function (e) {
+                e.preventDefault() ;
+                e.stopPropagation() ;
+                if(this.scrolling)
+                    return ;
+                this.scrolling = true;
+                var scroll = e.detail.ddx
+                if (this.___acV_rotation) {
+                    scroll = e.detail.ddy ; 
+                }
+                if (scroll < 0) {
+                    if (this.rangeLow < 95) {
+                        this.rangeLow ++ ; 
+                    }
+                    if (this.rangeHigh < 100) {
+                        this.rangeHigh ++ ; 
+                    }
+                }
+                if (scroll > 0) {
+                    if (this.rangeLow > 1) {
+                        this.rangeLow -- ; 
+                    }
+                    if (this.rangeHigh > 5) {
+                        this.rangeHigh -- ; 
+                    }
+                }
+                await sleep(50);
+                this.scrolling = false ; 
             },
             ___acV_midiEventToAudioNote: function(channel,midiNote,origin){
                 if (origin.startsWith('___midi_instrument')) 
