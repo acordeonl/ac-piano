@@ -33,6 +33,9 @@
             .vertical{
                 transform: rotate(90deg);
             }
+            .horizontal{
+                transform: rotate(0deg) ; 
+            }
             [range]{
                 height: 10%;
                 width: 100%;
@@ -243,7 +246,7 @@
             _computeRotation: function (rotation,mobile) {
                 if (rotation || mobile )
                     return "vertical";
-                return "";
+                return "horizontal";
             },
             _onRangeChange: function (e) {
                 var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length ;
