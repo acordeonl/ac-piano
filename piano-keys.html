@@ -154,6 +154,9 @@
         Polymer({
             is: "piano-keys",
             observers: [],
+            listeners:{
+                'wheel':'_wheelZoom'
+            },
             behaviors: [acLedGroupBehavior],
             properties: {
                 keyDisplays: {
@@ -172,6 +175,31 @@
                     type:Boolean,
                     value:false
                 }
+            },
+             _wheelZoom: async function(e){
+                e.stopPropagation() ;
+                e.preventDefault() ;
+
+                if(this.scrolling)
+                    return ;
+                this.scrolling = true;
+                var scroll = e.wheelDelta ;
+                if (scroll < 0) {
+                    if (this.rangeLow>0) {
+                        this.rangeLow -- ; 
+                    }
+                    if (this.rangeHigh < 100) {
+                        this.rangeHigh ++ ; 
+                    }
+                }
+                if (scroll > 0) {
+                    if (this.rangeHigh-this.rangeLow>6) {
+                        this.rangeLow ++ ; 
+                        this.rangeHigh -- ; 
+                    }
+                }
+                await sleep(50);
+                this.scrolling = false ; 
             },
             _handleTrack: async function (e) {
                 e.preventDefault() ;
