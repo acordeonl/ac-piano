@@ -242,7 +242,7 @@
                 if (!origin.startsWith('___midi_instrument')) {
                     return [midiNote+this.___acV_referencePitch-this.___acV_pitch] ;
                 }
-                return [midiNote,midiNote+12] ;
+                return [midiNote] ;
             },
             _computeRotation: function (rotation,mobile) {
                 if (rotation || mobile )
