@@ -239,9 +239,10 @@
                return this.___acV_midiEventToAudioNoteDefault(channel,midiNote,origin) ; 
             },
             ___acV_mapMIDIEventToAcLedId: function(channel,midiNote,origin){
-                if (!origin.startsWith('___midi_instrument')) 
-                    return midiNote+this.___acV_referencePitch-this.___acV_pitch ;
-                return midiNote ;
+                if (!origin.startsWith('___midi_instrument')) {
+                    return [midiNote+this.___acV_referencePitch-this.___acV_pitch] ;
+                }
+                return [midiNote,midiNote+12] ;
             },
             _computeRotation: function (rotation,mobile) {
                 if (rotation || mobile )
