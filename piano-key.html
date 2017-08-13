@@ -5,75 +5,98 @@
 <dom-module id="piano-key">
     <template>
         <style>
-            [rect]{
-                position: absolute  ; 
-                height:260px;
-                width:36px;
-                background-color: var(--content-background,#fafafa);
-                border-radius: 3px ;
+            [rect] {
+                position: absolute;
+                height: 260px;
+                width: 36px;
+                background-color: var(--content-background, #fafafa);
+                border-radius: 3px;
             }
-            [shadow]{
-                height:260px;
-                width:36px;
+
+            [shadow] {
+                height: 260px;
+                width: 36px;
                 margin-top: 5px;
-                background-color: var(--ac-led-shadow,gray);
-                border-radius: 3px ;
+                background-color: var(--ac-led-shadow, gray);
+                border-radius: 3px;
             }
-            [acLed]{
-                position: absolute; 
-                height:260px;
-                width:36px;
-                background-color: white ;
-                border-radius: 3px ;
+
+            [acLed] {
+                position: absolute;
+                height: 260px;
+                width: 36px;
+                background-color: white;
+                border-radius: 3px;
             }
-            [wrapper]{
-                height:260px;
-                width:36px;
-                margin:1px;
+
+            [wrapper] {
+                height: 260px;
+                width: 36px;
+                margin: 1px;
             }
-            [bottom-rect]{
-                position:absolute ; 
-                background-color: var(--content-background1,#fafafa);
-                height:274px;
-                border-radius: 5px ;
-                width:36px;
+
+            [bottom-rect] {
+                position: absolute;
+                background-color: var(--content-background1, #fafafa);
+                height: 274px;
+                border-radius: 5px;
+                width: 36px;
             }
-            [bottom-rect-shadow]{
-                position:absolute ; 
-                background-color:var(--ac-led-shadow2,gray) ;
-                height:290px;
-                border-radius: 4px ;
-                width:36px;
+
+            [bottom-rect-shadow] {
+                position: absolute;
+                background-color: var(--ac-led-shadow2, gray);
+                height: 290px;
+                border-radius: 4px;
+                width: 36px;
             }
-            [note]{
-                color:var(--content-background1,#fafafa);
-                font-weight:400 ; 
-                @apply(--layout-center-justified); 
+
+            [note] {
+                color: var(--content-background1, #fafafa);
+                font-weight: 400;
+                @apply(--layout-center-justified);
                 @apply(--layout-self-end);
                 @apply(--layout-horizontal);
                 @apply(--layout-end);
-                height:95%;
-                width:100%;
-                text-align: center ;  
+                height: 95%;
+                width: 100%;
+                text-align: center;
             }
-            [mobile] [key]{
-                height: 45vw ;
+
+            [mobile] [key] {
+                height: 45vw;
             }
-            [mobile] [bottom-rect]{
-                height: 46vw ; 
+
+            [mobile] [bottom-rect] {
+                height: 46vw;
             }
-        </style>    
+
+            [noteNames] {
+                font-weight: 400;
+                @apply(--layout-center-justified);
+                @apply(--layout-self-end);
+                @apply(--layout-horizontal);
+                @apply(--layout-end);
+                height: 95%;
+                width: 100%;
+                text-align: center;
+                color: var(--content-color2, gray);
+            }
+        </style>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
             <div wrapper key>
                 <!-- <div bottom-rect-shadow></div>   -->
-                <div bottom-rect></div>  
-                <div rect shadow key></div> 
-                <div rect key >
+                <div bottom-rect></div>
+                <div rect shadow key></div>
+                <div rect key>
+                    <div noteNames style$='display:[[showingNotes]] ;'>
+                        [[note]]
+                    </div>
                 </div>
                 <div acLed key>
                     <!-- override default -->
-                     <div note>
-                    </div>    
+                    <div note>
+                    </div>
                 </div>
             </div>
         </local-dom>
@@ -84,6 +107,17 @@
             observers: [],
             behaviors: [acLedBehavior],
             properties: {
+                showingNotes: {
+                    type: String,
+                    value: 'none'
+                }
+            },
+            toggleButtonNotes: function () {
+                if (this.showingNotes === 'flex')
+                    this.showingNotes = 'none';
+                else {
+                    this.showingNotes = 'flex';
+                }
             }
         });
     </script>

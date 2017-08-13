@@ -17,42 +17,50 @@
                 @apply(--layout-vertical);
                 @apply(--layout-center-justified);
             }
+
             [piano] {
                 @apply(--layout-center-justified);
                 @apply(--layout-horizontal);
             }
-            [piano]:active{
-                cursor: move ; 
+
+            [piano]:active {
+                cursor: move;
             }
+
             [desktop] [piano] {
-                margin-top:80px;
+                margin-top: 80px;
             }
+
             .noDisplay {
                 display: none;
             }
-            .vertical{
+
+            .vertical {
                 transform: rotate(90deg);
             }
-            .horizontal{
-                transform: rotate(0deg) ; 
+
+            .horizontal {
+                transform: rotate(0deg);
             }
-            [range]{
+
+            [range] {
                 height: 10%;
                 width: 100%;
                 @apply(--layout-center);
                 @apply(--layout-vertical);
                 @apply(--layout-center-justified);
             }
+
             paper-range-slider {
                 will-change: transf2orm;
                 cursor: pointer;
-                --paper-range-slider-active-color:var(--ac-led-shadow,gray);
-                --paper-range-slider-knob-color:var(--ac-led-shadow,gray);
-                --paper-range-slider-pin-color:var(--ac-led-shadow,gray);
-                --paper-range-slider-pin-start-color:var(--ac-led-shadow,gray);
+                --paper-range-slider-active-color: var(--ac-led-shadow, gray);
+                --paper-range-slider-knob-color: var(--ac-led-shadow, gray);
+                --paper-range-slider-pin-color: var(--ac-led-shadow, gray);
+                --paper-range-slider-pin-start-color: var(--ac-led-shadow, gray);
             }
         </style>
-        <view-audio id="trebleAudio" channel='0' default-audio-url='/data/accordion_synth/treble.mp3'></view-audio>
+        <view-audio id="pianoAudio" channel='0' default-audio-url='/data/accordion_synth/treble.mp3'></view-audio>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
             <div wrapper class$="{{_computeRotation(___acV_rotation,mobile)}}">
                 <div piano on-track='_handleTrack'>
@@ -145,9 +153,7 @@
                 </div>
             </div>
             <div range>
-                <paper-range-slider id='rangeSlider'
-                    value-diff-min='5' min='0' max='100'
-                    value-max="{{rangeHigh}}" value-min="{{rangeLow}}"
+                <paper-range-slider id='rangeSlider' value-diff-min='5' min='0' max='100' value-max="{{rangeHigh}}" value-min="{{rangeLow}}"
                     on-change='_onRangeChange' on-value-change='_onRangeChange'>
                 </paper-range-slider>
             </div>
@@ -157,8 +163,9 @@
         Polymer({
             is: "piano-keys",
             observers: [],
-            listeners:{
-                'wheel':'_wheelZoom'
+            listeners: {
+                'wheel': '_wheelZoom',
+                'click': '_toggleButtonNotes'
             },
             behaviors: [acLedGroupBehavior],
             properties: {
@@ -166,99 +173,123 @@
                     type: Array,
                     value: []
                 },
-                rangeHigh:{
-                    type:Number,
-                    value:100
+                rangeHigh: {
+                    type: Number,
+                    value: 100
                 },
-                rangeLow:{
-                    type:Number,
-                    value:0
+                rangeLow: {
+                    type: Number,
+                    value: 0
                 },
-                scrolling:{
-                    type:Boolean,
-                    value:false
+                scrolling: {
+                    type: Boolean,
+                    value: false
                 }
             },
-             _wheelZoom: async function(e){
-                e.stopPropagation() ;
-                e.preventDefault() ;
+            _wheelZoom: async function (e) {
+                e.stopPropagation();
+                e.preventDefault();
 
-                if(this.scrolling)
-                    return ;
+                if (this.scrolling)
+                    return;
                 this.scrolling = true;
-                var scroll = e.wheelDelta ;
+                var scroll = e.wheelDelta;
                 if (scroll < 0) {
-                    if (this.rangeLow>0) {
-                        this.rangeLow -- ; 
+                    if (this.rangeLow > 0) {
+                        this.rangeLow--;
                     }
                     if (this.rangeHigh < 100) {
-                        this.rangeHigh ++ ; 
+                        this.rangeHigh++;
                     }
                 }
                 if (scroll > 0) {
-                    if (this.rangeHigh-this.rangeLow>6) {
-                        this.rangeLow ++ ; 
-                        this.rangeHigh -- ; 
+                    if (this.rangeHigh - this.rangeLow > 6) {
+                        this.rangeLow++;
+                        this.rangeHigh--;
                     }
                 }
                 await sleep(50);
-                this.scrolling = false ; 
+                this.scrolling = false;
+            },
+            _setNoteNames: function () {
+                var nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-KEY');
+                for (let i = 0; i < nodeList.length; i++) {
+                    var note = nodeList[i].acId;
+                    nodeList[i].note = "C C#D EbE F F#G AbA BbB ";
+                    nodeList[i].note = (nodeList[i].note.substring((note % 12) * 2, (note % 12) * 2 + 2) + (Math.floor(note / 12)).toString()).replace(" ", "");
+                }
+                nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-SEMI-KEY');
+                for (let i = 0; i < nodeList.length; i++) {
+                    var note = nodeList[i].acId;
+                    nodeList[i].note = "C C#D EbE F F#G AbA BbB ";
+                    nodeList[i].note = (nodeList[i].note.substring((note % 12) * 2, (note % 12) * 2 + 2) + (Math.floor(note / 12)).toString()).replace(" ", "");
+                }
+            },
+            _toggleButtonNotes: function () {
+                var nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-KEY');
+                for (let i = 0; i < nodeList.length; i++) {
+                    nodeList[i].toggleButtonNotes();
+                }
+                nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-SEMI-KEY');
+                for (let i = 0; i < nodeList.length; i++) {
+                    nodeList[i].toggleButtonNotes();
+                }
             },
             _handleTrack: async function (e) {
-                e.preventDefault() ;
-                e.stopPropagation() ;
-                if(this.scrolling)
-                    return ;
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.scrolling)
+                    return;
                 this.scrolling = true;
                 var scroll = e.detail.ddx
                 if (this.___acV_rotation) {
-                    scroll = e.detail.ddy ; 
+                    scroll = e.detail.ddy;
                 }
                 if (scroll < 0) {
                     if (this.rangeLow < 95) {
-                        this.rangeLow ++ ; 
+                        this.rangeLow++;
                     }
                     if (this.rangeHigh < 100) {
-                        this.rangeHigh ++ ; 
+                        this.rangeHigh++;
                     }
                 }
                 if (scroll > 0) {
                     if (this.rangeLow > 1) {
-                        this.rangeLow -- ; 
+                        this.rangeLow--;
                     }
                     if (this.rangeHigh > 5) {
-                        this.rangeHigh -- ; 
+                        this.rangeHigh--;
                     }
                 }
                 await sleep(50);
-                this.scrolling = false ; 
+                this.scrolling = false;
             },
-            ___acV_midiEventToAudioNote: function(channel,midiNote,origin){
-                if (origin.startsWith('___midi_instrument')) 
-                    return midiNote; 
-               return this.___acV_midiEventToAudioNoteDefault(channel,midiNote,origin) ; 
+            ___acV_midiEventToAudioNote: function (channel, midiNote, origin) {
+                if (origin.startsWith('___midi_instrument'))
+                    return midiNote;
+                return this.___acV_midiEventToAudioNoteDefault(channel, midiNote, origin);
             },
-            ___acV_mapMIDIEventToAcLedId: function(channel,midiNote,origin){
+            ___acV_mapMIDIEventToAcLedId: function (channel, midiNote, origin) {
                 if (!origin.startsWith('___midi_instrument')) {
-                    return [midiNote+this.___acV_referencePitch-this.___acV_pitch] ;
+                    return [midiNote + this.___acV_referencePitch - this.___acV_pitch];
                 }
-                return [midiNote] ;
+                return [midiNote];
             },
-            _computeRotation: function (rotation,mobile) {
-                if (rotation || mobile )
+            _computeRotation: function (rotation, mobile) {
+                if (rotation || mobile)
                     return "vertical";
                 return "horizontal";
             },
             _onRangeChange: function (e) {
-                var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length ;
-                var low = Math.floor((this.rangeLow/100)*numKeys) ;
-                var high = Math.floor((this.rangeHigh/100)*numKeys) ;
+                var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length;
+                var low = Math.floor((this.rangeLow / 100) * numKeys);
+                var high = Math.floor((this.rangeHigh / 100) * numKeys);
                 this.keyDisplays = [];
-                for(let i = 0 ; i < low ; i ++ ){
-                    this.keyDisplays[i] = 'noDisplay' ;
+                for (let i = 0; i < low; i++) {
+                    this.keyDisplays[i] = 'noDisplay';
                 }
-                for(let i = high+1 ; i < numKeys ; i ++ ){
-                    this.keyDisplays[i] = 'noDisplay' ;
+                for (let i = high + 1; i < numKeys; i++) {
+                    this.keyDisplays[i] = 'noDisplay';
                 }
                 this._updateDisplayArray();
             },
@@ -269,19 +300,32 @@
             },
             ready: function () {
                 var tot = window.innerWidth
-                tot*=0.7 ;
+                tot *= 0.7;
                 if (this.mobile) {
-                    tot = window.innerHeight ;
-                    tot*=0.8 ;
+                    tot = window.innerHeight;
+                    tot *= 0.8;
                 }
-                var visibleKeys = Math.floor(tot/36) ;
-                visibleKeys += 5*Math.floor(visibleKeys/7) ;
-                var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length ;
-                visibleKeys = Math.min(numKeys, visibleKeys) ;
-                var per = visibleKeys/numKeys ;
-                this.rangeLow = Math.floor((1-per)/2*100) ;
-                this.rangeHigh = Math.ceil(((1-per)/2 + per)*100);
-                this._onRangeChange() ;
+                var visibleKeys = Math.floor(tot / 36);
+                visibleKeys += 5 * Math.floor(visibleKeys / 7);
+                var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length;
+                visibleKeys = Math.min(numKeys, visibleKeys);
+                var per = visibleKeys / numKeys;
+                this.rangeLow = Math.floor((1 - per) / 2 * 100);
+                this.rangeHigh = Math.ceil(((1 - per) / 2 + per) * 100);
+                this._onRangeChange();
+                
+                var startNote = 55 ; 
+                for(let i = startNote ; i < startNote+12 ; i ++ ){
+                    this.___acV_setChord(i, 'M', [
+                        [0, i , i+4, i+7]
+                    ]);
+                }
+                for(let i = startNote ; i < startNote+12 ; i ++ ){
+                    this.___acV_setChord(i, 'm', [
+                        [0, i , i+3, i+7]
+                    ]);
+                }
+                this._setNoteNames();
             }
         });
     </script>

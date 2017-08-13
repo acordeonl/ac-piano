@@ -63,7 +63,7 @@
                 [note]{
                     height:100%;
                     width:70%;
-                    color:var(--content-background1,#fafafa);
+                    color:white;
                     font-weight:400 ; 
                     margin:5.6px ; 
                     margin-top:20px ; 
@@ -111,7 +111,11 @@
                 <div rect shadow ></div> 
                 <div rect key >
                     <div rect2></div>
-                    <div rect3 key></div>
+                    <div rect3 key>
+                        <div note style$='display:[[showingNotes]] ;'>
+                            [[note]]
+                        </div>
+                    </div>
                 </div>
                 <div acLed key>
                     <!-- override default -->
@@ -130,6 +134,18 @@
                 position:{
                     type:String,
                     value:'center'
+                },
+                showingNotes: {
+                    type: String,
+                    value: 'none'
+                }
+            },
+            toggleButtonNotes: function () {
+                console.log('toggling notes');
+                if (this.showingNotes === '')
+                    this.showingNotes = 'none';
+                else {
+                    this.showingNotes = '';
                 }
             }
         });
