@@ -89,7 +89,7 @@
                 <div bottom-rect></div>
                 <div rect shadow key></div>
                 <div rect key>
-                    <div noteNames style$='display:[[showingNotes]] ;'>
+                    <div noteNames style$='display:{{_computeDisplay(___acV_displayingNotes)}} ;'>
                         [[note]]
                     </div>
                 </div>
@@ -107,17 +107,12 @@
             observers: [],
             behaviors: [acLedBehavior],
             properties: {
-                showingNotes: {
-                    type: String,
-                    value: 'none'
-                }
             },
-            toggleButtonNotes: function () {
-                if (this.showingNotes === 'flex')
-                    this.showingNotes = 'none';
-                else {
-                    this.showingNotes = 'flex';
+            _computeDisplay: function (value) {
+                if (value) {
+                    return 'flex' ; 
                 }
+                return 'none'
             }
         });
     </script>

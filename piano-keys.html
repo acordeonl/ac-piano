@@ -164,8 +164,7 @@
             is: "piano-keys",
             observers: [],
             listeners: {
-                'wheel': '_wheelZoom',
-                'click': '_toggleButtonNotes'
+                'wheel': '_wheelZoom'
             },
             behaviors: [acLedGroupBehavior],
             properties: {
@@ -223,16 +222,6 @@
                     var note = nodeList[i].acId;
                     nodeList[i].note = "C C#D EbE F F#G AbA BbB ";
                     nodeList[i].note = (nodeList[i].note.substring((note % 12) * 2, (note % 12) * 2 + 2) + (Math.floor(note / 12)).toString()).replace(" ", "");
-                }
-            },
-            _toggleButtonNotes: function () {
-                var nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-KEY');
-                for (let i = 0; i < nodeList.length; i++) {
-                    nodeList[i].toggleButtonNotes();
-                }
-                nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-SEMI-KEY');
-                for (let i = 0; i < nodeList.length; i++) {
-                    nodeList[i].toggleButtonNotes();
                 }
             },
             _handleTrack: async function (e) {
