@@ -20,7 +20,7 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "ac-view": "acordeonl/ac-view#^2.0.0",
-    "paper-range-slider": "acordeonl/range-slider^2.0.0",
+    "paper-range-slider": "acordeonl/paper-range-slider#^2.0.0",
     "local-dom": "acordeonl/local-dom#^2.0.0"
   }
 }
