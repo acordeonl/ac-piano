@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../ac-view/ac-led-behavior.html">
 <link rel="import" href="../local-dom/local-dom.html">
 
@@ -56,9 +56,9 @@
                     display: flex ; 
                     height:183px;
                     width:25px;
-                    @apply(--layout-horizontal);
-                    @apply(--layout-center);
-                    @apply(--layout-vertical);
+                    @apply --layout-horizontal;
+                    @apply --layout-center;
+                    @apply --layout-vertical;
                 }
                 [note]{
                     height:100%;
@@ -126,22 +126,21 @@
         </local-dom>
     </template>
     <script>
-        Polymer({
-            is: "piano-semi-key",
-            observers: [],
-            behaviors: [acLedBehavior],
-            properties: {
-                position:{
-                    type:String,
-                    value:'center'
-                }
-            },
-            _computeDisplay: function (value) {
+        class PianoSemiKey extends Polymer.mixinBehaviors([acLedBehavior], Polymer.Element) {
+            static get is() { return 'piano-semi-key'; }
+            static get properties() {return {
+                position:{type:String,value:'center'}
+            }}
+            constructor() {
+                super();
+            }
+            _computeDisplay (value) {
                 if (value) {
                     return '' ; 
                 }
                 return 'none'
             }
-        });
+        }
+        customElements.define('piano-semi-key', PianoSemiKey);
     </script>
 </dom-module>

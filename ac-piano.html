@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../ac-view/ac-view-behavior.html">
 <link rel="import" href="./piano-keys.html">
 <dom-module id="ac-piano">
@@ -9,18 +9,20 @@
         </piano-keys>
     </template>
     <script>
-        Polymer({
-            is: "ac-piano",
-            observers: [],
-            behaviors: [ACViewBehavior],
-            properties: {
-            },
-            ___acV_handleMIDIEvent: function (e) {
+        class ACPiano extends Polymer.mixinBehaviors([ACViewBehavior], Polymer.Element)  {
+            static get is() { return 'ac-piano'; }
+            static get properties() {return {}}
+            constructor() {
+                super();
+            }
+            ___acV_handleMIDIEvent (e) {
                 this.$$('PIANO-KEYS').___acV_onMIDIEvent(e);
-            },
-            ready: function () {
+            }
+            ready() {
+                super.ready() ;
                 this.___acV_setDefaultReverb(30);
             }
-        });
+        }
+        customElements.define('ac-piano', ACPiano);
     </script>
 </dom-module>

@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../ac-view/ac-led-behavior.html">
 <link rel="import" href="../local-dom/local-dom.html">
 
@@ -54,10 +54,10 @@
             [note] {
                 color: var(--content-background1, #fafafa);
                 font-weight: 400;
-                @apply(--layout-center-justified);
-                @apply(--layout-self-end);
-                @apply(--layout-horizontal);
-                @apply(--layout-end);
+                @apply --layout-center-justified;
+                @apply --layout-self-end;
+                @apply --layout-horizontal;
+                @apply --layout-end;
                 height: 95%;
                 width: 100%;
                 text-align: center;
@@ -73,10 +73,10 @@
 
             [noteNames] {
                 font-weight: 400;
-                @apply(--layout-center-justified);
-                @apply(--layout-self-end);
-                @apply(--layout-horizontal);
-                @apply(--layout-end);
+                @apply --layout-center-justified;
+                @apply --layout-self-end;
+                @apply --layout-horizontal;
+                @apply --layout-end;
                 height: 95%;
                 width: 100%;
                 text-align: center;
@@ -102,18 +102,19 @@
         </local-dom>
     </template>
     <script>
-        Polymer({
-            is: "piano-key",
-            observers: [],
-            behaviors: [acLedBehavior],
-            properties: {
-            },
-            _computeDisplay: function (value) {
+        class PianoKey extends Polymer.mixinBehaviors([acLedBehavior], Polymer.Element) {
+            static get is() { return 'piano-key'; }
+            static get properties() {return {}}
+            constructor() {
+                super();
+            }
+            _computeDisplay (value) {
                 if (value) {
                     return 'flex' ; 
                 }
                 return 'none'
             }
-        });
+        }
+        customElements.define('piano-key', PianoKey);
     </script>
 </dom-module>

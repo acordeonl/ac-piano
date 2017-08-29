@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../ac-view/ac-led-group-behavior.html">
 <link rel="import" href="../paper-range-slider/paper-range-slider.html">
 <link rel="import" href="../local-dom/local-dom.html">
@@ -13,14 +13,14 @@
             [wrapper] {
                 height: 90%;
                 width: 100%;
-                @apply(--layout-center);
-                @apply(--layout-vertical);
-                @apply(--layout-center-justified);
+                @apply --layout-center;
+                @apply --layout-vertical;
+                @apply --layout-center-justified;
             }
 
             [piano] {
-                @apply(--layout-center-justified);
-                @apply(--layout-horizontal);
+                @apply --layout-center-justified;
+                @apply --layout-horizontal;
             }
 
             [piano]:active {
@@ -46,13 +46,13 @@
             [range] {
                 height: 10%;
                 width: 100%;
-                @apply(--layout-center);
-                @apply(--layout-vertical);
-                @apply(--layout-center-justified);
+                @apply --layout-center;
+                @apply --layout-vertical;
+                @apply --layout-center-justified;
             }
 
             paper-range-slider {
-                will-change: transf2orm;
+                will-change: transform;
                 cursor: pointer;
                 --paper-range-slider-active-color: var(--ac-led-shadow, gray);
                 --paper-range-slider-knob-color: var(--ac-led-shadow, gray);
@@ -160,32 +160,18 @@
         </local-dom>
     </template>
     <script>
-        Polymer({
-            is: "piano-keys",
-            observers: [],
-            listeners: {
-                'wheel': '_wheelZoom'
-            },
-            behaviors: [acLedGroupBehavior],
-            properties: {
-                keyDisplays: {
-                    type: Array,
-                    value: []
-                },
-                rangeHigh: {
-                    type: Number,
-                    value: 100
-                },
-                rangeLow: {
-                    type: Number,
-                    value: 0
-                },
-                scrolling: {
-                    type: Boolean,
-                    value: false
-                }
-            },
-            _wheelZoom: async function (e) {
+        class PianoKeys extends Polymer.mixinBehaviors([acLedGroupBehavior], Polymer.Element) {
+            static get is() { return 'piano-keys'; }
+            static get properties() {return {
+                keyDisplays: {type: Array,value: []},
+                rangeHigh: {type: Number,value: 100},
+                rangeLow: {type: Number,value: 0},
+                scrolling: {type: Boolean,value: false}
+            }}
+            constructor() {
+                super();
+            }
+            async _wheelZoom (e) {
                 e.stopPropagation();
                 e.preventDefault();
 
@@ -209,8 +195,8 @@
                 }
                 await sleep(50);
                 this.scrolling = false;
-            },
-            _setNoteNames: function () {
+            }
+            _setNoteNames () {
                 var nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-KEY');
                 for (let i = 0; i < nodeList.length; i++) {
                     var note = nodeList[i].acId;
@@ -223,8 +209,8 @@
                     nodeList[i].note = "C C#D EbE F F#G AbA BbB ";
                     nodeList[i].note = (nodeList[i].note.substring((note % 12) * 2, (note % 12) * 2 + 2) + (Math.floor(note / 12)).toString()).replace(" ", "");
                 }
-            },
-            _handleTrack: async function (e) {
+            }
+            async _handleTrack (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 if (this.scrolling)
@@ -252,24 +238,24 @@
                 }
                 await sleep(50);
                 this.scrolling = false;
-            },
-            ___acV_midiEventToAudioNote: function (channel, midiNote, origin) {
+            }
+            ___acV_midiEventToAudioNote (channel, midiNote, origin) {
                 if (origin.startsWith('___midi_instrument'))
                     return midiNote;
                 return this.___acV_midiEventToAudioNoteDefault(channel, midiNote, origin);
-            },
-            ___acV_mapMIDIEventToAcLedId: function (channel, midiNote, origin) {
+            }
+            ___acV_mapMIDIEventToAcLedId (channel, midiNote, origin) {
                 if (!origin.startsWith('___midi_instrument')) {
                     return [midiNote + this.___acV_referencePitch - this.___acV_pitch];
                 }
                 return [midiNote];
-            },
-            _computeRotation: function (rotation, mobile) {
+            }
+            _computeRotation (rotation, mobile) {
                 if (rotation || mobile)
                     return "vertical";
                 return "horizontal";
-            },
-            _onRangeChange: function (e) {
+            }
+            _onRangeChange (e) {
                 var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length;
                 var low = Math.floor((this.rangeLow / 100) * numKeys);
                 var high = Math.floor((this.rangeHigh / 100) * numKeys);
@@ -281,13 +267,14 @@
                     this.keyDisplays[i] = 'noDisplay';
                 }
                 this._updateDisplayArray();
-            },
-            _updateDisplayArray: function () {
+            }
+            _updateDisplayArray () {
                 var arr = this.keyDisplays;
                 this.keyDisplays = [];
                 this.keyDisplays = arr;
-            },
-            ready: function () {
+            }
+            ready() {
+                super.ready() ;
                 var tot = window.innerWidth
                 tot *= 0.7;
                 if (this.mobile) {
@@ -302,7 +289,7 @@
                 this.rangeLow = Math.floor((1 - per) / 2 * 100);
                 this.rangeHigh = Math.ceil(((1 - per) / 2 + per) * 100);
                 this._onRangeChange();
-                
+
                 var startNote = 55 ; 
                 for(let i = startNote ; i < startNote+12 ; i ++ ){
                     this.___acV_setChord(i, 'M', [
@@ -315,7 +302,11 @@
                     ]);
                 }
                 this._setNoteNames();
+                Polymer.RenderStatus.afterNextRender(this, function() {
+                    this.addEventListener('wheel', e => this._wheelZoom(e));
+                });
             }
-        });
+        }
+        customElements.define('piano-keys', PianoKeys);
     </script>
 </dom-module>
