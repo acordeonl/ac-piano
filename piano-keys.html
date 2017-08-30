@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../ac-view/ac-led-group-behavior.html">
+<link rel="import" href="../ac-view/ac-led-group.html">
 <link rel="import" href="../paper-range-slider/paper-range-slider.html">
 <link rel="import" href="../local-dom/local-dom.html">
 <link rel="import" href="../ac-view/view-audio.html">
@@ -160,7 +160,7 @@
         </local-dom>
     </template>
     <script>
-        class PianoKeys extends Polymer.mixinBehaviors([acLedGroupBehavior], Polymer.Element) {
+        class PianoKeys extends ACLedGroup {
             static get is() { return 'piano-keys'; }
             static get properties() {return {
                 keyDisplays: {type: Array,value: []},

@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../ac-view/ac-led-behavior.html">
+<link rel="import" href="../ac-view/ac-led.html">
 <link rel="import" href="../local-dom/local-dom.html">
 
 <dom-module id="piano-semi-key">
@@ -124,7 +124,7 @@
         </local-dom>
     </template>
     <script>
-        class PianoSemiKey extends Polymer.mixinBehaviors([acLedBehavior], Polymer.Element) {
+        class PianoSemiKey extends ACLed {
             static get is() { return 'piano-semi-key'; }
             static get properties() {return {
                 position:{type:String,value:'center'}

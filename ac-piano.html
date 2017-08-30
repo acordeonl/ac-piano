@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../ac-view/ac-view-behavior.html">
+<link rel="import" href="../ac-view/ac-view.html">
 <link rel="import" href="./piano-keys.html">
 <dom-module id="ac-piano">
     <template>
@@ -9,14 +9,14 @@
         </piano-keys>
     </template>
     <script>
-        class ACPiano extends Polymer.mixinBehaviors([ACViewBehavior], Polymer.Element)  {
+        class ACPiano extends ACView  {
             static get is() { return 'ac-piano'; }
             static get properties() {return {}}
             constructor() {
                 super();
             }
             ___acV_handleMIDIEvent (e) {
-                this.$$('PIANO-KEYS').___acV_onMIDIEvent(e);
+                this.shadowRoot.querySelector('PIANO-KEYS').___acV_onMIDIEvent(e);
             }
             ready() {
                 super.ready() ;
