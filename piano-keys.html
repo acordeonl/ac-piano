@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
 <link rel="import" href="../ac-view/ac-led-group.html">
 <link rel="import" href="../paper-range-slider/paper-range-slider.html">
 <link rel="import" href="../local-dom/local-dom.html">
@@ -160,7 +161,7 @@
         </local-dom>
     </template>
     <script>
-        class PianoKeys extends ACLedGroup {
+        class PianoKeys extends Polymer.GestureEventListeners(ACLedGroup) {
             static get is() { return 'piano-keys'; }
             static get properties() {return {
                 keyDisplays: {type: Array,value: []},
