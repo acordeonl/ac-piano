@@ -43,7 +43,9 @@
             .horizontal {
                 transform: rotate(0deg);
             }
-
+            .withTopMargin {
+                margin-top: 100px ; 
+            }
             [range] {
                 height: 10%;
                 width: 100%;
@@ -64,7 +66,7 @@
         <view-audio id="pianoAudio" channel='0' default-audio-url='/data/accordion_synth/treble.mp3'></view-audio>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
             <div wrapper class$="{{_computeRotation(___acV_rotation,mobile)}}">
-                <div piano on-track='_handleTrack'>
+                <div piano class$='{{_computeMargin(___acV_rotation,mobile)}}' on-track='_handleTrack'>
                     <piano-key class$='[[keyDisplays.0]]' acLed ac-id='24' channel='0'></piano-key>
                     <piano-semi-key class$='[[keyDisplays.1]]' position='left' acLed ac-id='25' channel='0'></piano-semi-key>
                     <piano-key class$='[[keyDisplays.2]]' acLed ac-id='26' channel='0'></piano-key>
@@ -163,16 +165,18 @@
     <script>
         class PianoKeys extends Polymer.GestureEventListeners(ACLedGroup) {
             static get is() { return 'piano-keys'; }
-            static get properties() {return {
-                keyDisplays: {type: Array,value: []},
-                rangeHigh: {type: Number,value: 100},
-                rangeLow: {type: Number,value: 0},
-                scrolling: {type: Boolean,value: false}
-            }}
+            static get properties() {
+                return {
+                    keyDisplays: { type: Array, value: [] },
+                    rangeHigh: { type: Number, value: 100 },
+                    rangeLow: { type: Number, value: 0 },
+                    scrolling: { type: Boolean, value: false }
+                }            
+            }
             constructor() {
                 super();
             }
-            async _wheelZoom (e) {
+            async _wheelZoom(e) {
                 e.stopPropagation();
                 e.preventDefault();
 
@@ -197,7 +201,7 @@
                 await sleep(50);
                 this.scrolling = false;
             }
-            _setNoteNames () {
+            _setNoteNames() {
                 var nodeList = Polymer.dom(this.root).querySelectorAll('PIANO-KEY');
                 for (let i = 0; i < nodeList.length; i++) {
                     var note = nodeList[i].acId;
@@ -211,7 +215,7 @@
                     nodeList[i].note = (nodeList[i].note.substring((note % 12) * 2, (note % 12) * 2 + 2) + (Math.floor(note / 12)).toString()).replace(" ", "");
                 }
             }
-            async _handleTrack (e) {
+            async _handleTrack(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 if (this.scrolling)
@@ -240,23 +244,28 @@
                 await sleep(50);
                 this.scrolling = false;
             }
-            ___acV_midiEventToAudioNote (channel, midiNote, origin) {
+            ___acV_midiEventToAudioNote(channel, midiNote, origin) {
                 if (origin.startsWith('___midi_instrument'))
                     return midiNote;
                 return this.___acV_midiEventToAudioNoteDefault(channel, midiNote, origin);
             }
-            ___acV_mapMIDIEventToAcLedId (channel, midiNote, origin) {
+            ___acV_mapMIDIEventToAcLedId(channel, midiNote, origin) {
                 if (!origin.startsWith('___midi_instrument')) {
                     return [midiNote + this.___acV_referencePitch - this.___acV_pitch];
                 }
                 return [midiNote];
             }
-            _computeRotation (rotation, mobile) {
+            _computeRotation(rotation, mobile) {
                 if (rotation || mobile)
                     return "vertical";
                 return "horizontal";
             }
-            _onRangeChange (e) {
+            _computeMargin(rotation,mobile) {
+                if (rotation || mobile)
+                    return "noMargin";
+                return "withTopMargin";
+            }
+            _onRangeChange(e) {
                 var numKeys = Polymer.dom(this.root).querySelectorAll("[acLed]").length;
                 var low = Math.floor((this.rangeLow / 100) * numKeys);
                 var high = Math.floor((this.rangeHigh / 100) * numKeys);
@@ -269,13 +278,13 @@
                 }
                 this._updateDisplayArray();
             }
-            _updateDisplayArray () {
+            _updateDisplayArray() {
                 var arr = this.keyDisplays;
                 this.keyDisplays = [];
                 this.keyDisplays = arr;
             }
             ready() {
-                super.ready() ;
+                super.ready();
                 var tot = window.innerWidth
                 tot *= 0.7;
                 if (this.mobile) {
@@ -291,19 +300,19 @@
                 this.rangeHigh = Math.ceil(((1 - per) / 2 + per) * 100);
                 this._onRangeChange();
 
-                var startNote = 55 ; 
-                for(let i = startNote ; i < startNote+12 ; i ++ ){
+                var startNote = 55;
+                for (let i = startNote; i < startNote + 12; i++) {
                     this.___acV_setChord(i, 'M', [
-                        [0, i , i+4, i+7]
+                        [0, i, i + 4, i + 7]
                     ]);
                 }
-                for(let i = startNote ; i < startNote+12 ; i ++ ){
+                for (let i = startNote; i < startNote + 12; i++) {
                     this.___acV_setChord(i, 'm', [
-                        [0, i , i+3, i+7]
+                        [0, i, i + 3, i + 7]
                     ]);
                 }
                 this._setNoteNames();
-                Polymer.RenderStatus.afterNextRender(this, function() {
+                Polymer.RenderStatus.afterNextRender(this, function () {
                     this.addEventListener('wheel', e => this._wheelZoom(e));
                 });
             }
