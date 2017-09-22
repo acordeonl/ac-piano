@@ -251,7 +251,7 @@
             }
             ___acV_mapMIDIEventToAcLedId(channel, midiNote, origin) {
                 if (!origin.startsWith('___midi_instrument')) {
-                    return [midiNote + this.___acV_referencePitch - this.___acV_pitch];
+                    return [midiNote - this.___acV_viewKey + this.___acV_pitch];
                 }
                 return [midiNote];
             }
