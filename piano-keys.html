@@ -244,16 +244,16 @@
                 await sleep(50);
                 this.scrolling = false;
             }
-            ___acV_midiEventToAudioNote(channel, midiNote, origin) {
-                if (origin.startsWith('___midi_instrument'))
+            ___acV_midiEventToAudioNote(channel, midiNote, origin , initiator) {
+                if (origin.startsWith('___midi_instrument') || initiator ==='record')
                     return midiNote;
                 return this.___acV_midiEventToAudioNoteDefault(channel, midiNote, origin);
             }
-            ___acV_mapMIDIEventToAcLedId(channel, midiNote, origin) {
-                if (!origin.startsWith('___midi_instrument')) {
-                    return [midiNote - this.___acV_viewKey + this.___acV_pitch];
+            ___acV_mapMIDIEventToAcLedId(channel, midiNote, origin,initiator) {
+                if (!origin.startsWith('___midi_instrument') && initiator === 'play') {
+                    return [midiNote-this.___acV_viewKey + this.___acV_pitch];
                 }
-                return [midiNote];
+                return [midiNote-this.___acV_viewKey + this.___acV_pitch];
             }
             _computeRotation(rotation, mobile) {
                 if (rotation || mobile)
