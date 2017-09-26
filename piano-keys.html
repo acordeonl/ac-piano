@@ -251,9 +251,9 @@
             }
             ___acV_mapMIDIEventToAcLedId(channel, midiNote, origin,initiator) {
                 if (!origin.startsWith('___midi_instrument') && initiator === 'play') {
-                    return [midiNote + this.___acV_recordingPitch - this.___acV_viewPitch];
+                    return [midiNote + this.___acV_recordingPitchDiff];
                 }
-                return [midiNote + this.___acV_recordingPitch - this.___acV_viewPitch];
+                return [midiNote + this.___acV_recordingPitchDiff];
             }
             _computeRotation(rotation, mobile) {
                 if (rotation || mobile )
