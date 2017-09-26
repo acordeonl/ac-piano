@@ -245,18 +245,18 @@
                 this.scrolling = false;
             }
             ___acV_midiEventToAudioNote(channel, midiNote, origin , initiator) {
-                if (origin.startsWith('___midi_instrument') || initiator ==='record')
-                    return midiNote;
+                // if (origin.startsWith('___midi_instrument') || initiator ==='record')
+                    // return midiNote;
                 return this.___acV_midiEventToAudioNoteDefault(channel, midiNote, origin);
             }
             ___acV_mapMIDIEventToAcLedId(channel, midiNote, origin,initiator) {
                 if (!origin.startsWith('___midi_instrument') && initiator === 'play') {
-                    return [midiNote-this.___acV_viewKey + this.___acV_pitch];
+                    return [midiNote + this.___acV_recordingPitch - this.___acV_viewPitch];
                 }
-                return [midiNote-this.___acV_viewKey + this.___acV_pitch];
+                return [midiNote + this.___acV_recordingPitch - this.___acV_viewPitch];
             }
             _computeRotation(rotation, mobile) {
-                if (rotation || mobile)
+                if (rotation || mobile )
                     return "vertical";
                 return "horizontal";
             }
