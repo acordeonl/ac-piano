@@ -19,8 +19,9 @@
                 this.shadowRoot.querySelector('PIANO-KEYS').___acV_onMIDIEvent(e);
             }
             ready() {
-                this.___acV_displayingNotes = true ; 
                 super.ready() ;
+                this.___acV_canRotate(true) ; 
+                this.___acV_canDisplayNotes(true) ; 
                 this.___acV_setDefaultReverb(30);
                 this.___acV_setDefaultViewPitch(-1); 
             }
