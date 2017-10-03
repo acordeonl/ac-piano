@@ -5,7 +5,7 @@
     <template>
         <style>
         </style>
-        <piano-keys acLedGroup name='Piano'>
+        <piano-keys acLedGroup name='piano'>
         </piano-keys>
     </template>
     <script>
@@ -20,6 +20,7 @@
             }
             ready() {
                 super.ready() ;
+                this.___acV_setName('piano') ; 
                 this.___acV_canRotate(true) ; 
                 this.___acV_canDisplayNotes(true) ; 
                 this.___acV_setDefaultReverb(30);
