@@ -63,7 +63,7 @@
                 --paper-range-slider-pin-start-color: var(--ac-led-shadow, gray);
             }
         </style>
-        <view-audio id="pianoAudio" channel='0' default-audio-url='/data/accordion_synth/treble.mp3'></view-audio>
+        <view-audio channel='0' ></view-audio>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" desktop="{{desktop}}">
             <div wrapper class$="{{_computeRotation(___acV_rotation,mobile)}}">
                 <div piano class$='{{_computeMargin(___acV_rotation,mobile)}}' on-track='_handleTrack'>
