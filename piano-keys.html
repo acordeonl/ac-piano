@@ -265,7 +265,7 @@
                 this.scrolling = false;
             }
             ___acV_editMIDI_IN_event(e) {
-                if(e.channel === 1) 
+                if(e.channel === 1 || e.channel === 2) 
                     e.acLedState = 2 ; 
                 e.channel = 0 ; 
                 return e ;
